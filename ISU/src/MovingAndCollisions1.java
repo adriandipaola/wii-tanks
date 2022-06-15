@@ -12,7 +12,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	static JFrame frame;
 	Rectangle rect = new Rectangle(120, 460, 30, 55);
 	Point centerOfTank = new Point(135, 487);
-	Point topOfTank = new Point(135, 487);
+	Point topOfTank = new Point(135, 460);
 	Rectangle[] walls = new Rectangle[12];
 	boolean up, down, left, right;
 	int speed = 2;
@@ -23,9 +23,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	int FPS = 60;
 	Image firstImage, image;
 	int countFrames = 0;
-	ArrayList <Rectangle> bullets = new ArrayList <> ();
-	ArrayList <Integer> time = new ArrayList <> ();
-	ArrayList <Double[]> slope = new ArrayList<Double[]> ();
+	ArrayList <Bullet> bulletList = new ArrayList<>();
 	int xPos, yPos;
 	
 	public MovingAndCollisions1() { //Constructor
@@ -44,7 +42,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		catch (InterruptedException e)
 		{
 		}
-//		addMouseListener (this);
+		addMouseListener (this);
 //		image = Toolkit.getDefaultToolkit().getImage("crosshair.PNG");
 //		Point hotspot = new Point (0, 0);
 //		Toolkit toolkit = Toolkit.getDefaultToolkit ();
@@ -108,8 +106,8 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		g2.drawImage(firstImage, rect.x, rect.y, rect.width, rect.height, this);
 		drawLine(g);
 		
-		for (int i = 0; i<bullets.size(); i++) {
-			g2.fill(bullets.get(i));
+		for (int i = 0; i<bulletList.size(); i++) {
+			g2.fill(bulletList.get(i).getRectangle());
 		}
 	}
 	
@@ -243,10 +241,10 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	
 	public void addBullet () {
 		//this if statement might not work once enemy bullets are implemented
-		if (bullets.size() != 4) {
-			bullets.add(new Rectangle(centerOfTank.x, topOfTank.y, 10, 10)); //spawns bullets at the tank
-			time.add(countFrames);
-//		slope.add((xPos-topOfTank.y)/(yPos-centerOfTank.x)); //error divided by 0
+		if (bulletList.size() != 4) {
+			Bullet bullet = new Bullet();
+			bullet.setSpawnPoint(new double[]{centerOfTank.x + 0.0, topOfTank.y + 0.0});
+			bulletList.add(bullet);
 			//figuring out the distance between the tank and the mouse cursor on click
 			double x = xPos - centerOfTank.x;
 			double y = yPos - centerOfTank.y;
@@ -260,29 +258,22 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 			// x^2 + y^2 = bulletSpeed^2
 			x /= hypotenuse;
 			y /= hypotenuse;
-			//System.out.println(x + ", " + y);
-			slope.add(new Double[]{x, y});
+			bullet.setSlope(new double[]{x,y});
+			//slope.add(new Double[]{x, y});
 		}
 	}
-	public void animateBullet () {
-		//the bullet is always slightly inaccurate because it gets rounded and casted to int here
-		//im not sure how to solve this
-		//maybe use old method for slope that elson made
-		for (int i = 0; i < bullets.size (); i++) {//speed of bullet for every bullet
-			bullets.get(i).x = (int) Math.round(bullets.get(i).x + slope.get(i)[0]); //towards the crosshair
-			System.out.println(bullets.get(i).x);
-			bullets.get(i).y = (int) Math.round(bullets.get(i).y + slope.get(i)[1]);  //--> need this to move towards the crosshair
-		}
-		//make bullet dissappear
-		for (int i = 0; i < bullets.size (); i++) {
-			if (countFrames-time.get(i)>= 60) {
-				bullets.remove(i);
-				time.remove(i);
-//				slope.remove(i);
-				slope.remove(i);
+
+	public void animateBullet() {
+
+		for(int i = bulletList.size() - 1; i >= 0; i--) {
+			Bullet bullet = bulletList.get(i);
+			if (!bullet.isAlive()) {
+				bulletList.remove(i);
 			}
 		}
 	}
+
+
 	public static void main(String[] args) {
 		frame = new JFrame ("Tanks!");
 		MovingAndCollisions1 myPanel = new MovingAndCollisions1();

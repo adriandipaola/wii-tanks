@@ -7,7 +7,7 @@ public class Tank {
     boolean isPlayer;
     int speed;
     Point SpawnPoint;
-    public static void main(String[] args) {
-
-    }
 }
+
+
+
