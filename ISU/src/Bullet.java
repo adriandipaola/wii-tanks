@@ -39,8 +39,8 @@ public class Bullet {
     public Rectangle getRectangle() {
         long millis = System.currentTimeMillis() - creationTime;
         long frames = millis / 16;
-        int xPosition = (int) (spawnPoint.x + frames * slope[0]);
-        int yPosition = (int) (spawnPoint.y + frames * slope[1]);
+        int xPosition = (int) Math.round(spawnPoint.x + frames * slope[0]);
+        int yPosition = (int) Math.round(spawnPoint.y + frames * slope[1]);
         return new Rectangle(xPosition, yPosition, 10, 10);
     }
 }
