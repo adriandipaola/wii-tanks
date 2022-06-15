@@ -29,7 +29,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	public MovingAndCollisions1() { //Constructor
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setVisible(true);
-		System.out.println("adrian");
+		
 		thread = new Thread(this);
 		thread.start();
 		MediaTracker tracker = new MediaTracker (this);
