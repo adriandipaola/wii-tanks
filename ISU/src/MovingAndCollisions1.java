@@ -35,7 +35,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		thread = new Thread(this);
 		thread.start();
 		MediaTracker tracker = new MediaTracker (this);
-		firstImage = Toolkit.getDefaultToolkit ().getImage ("Tank.png");
+		firstImage = Toolkit.getDefaultToolkit ().getImage ("ISU\\resources\\Tank.png");
 		tracker.addImage (firstImage, 0);
 		try
 		{
