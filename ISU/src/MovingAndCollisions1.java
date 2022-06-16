@@ -24,7 +24,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	int countFrames = 0;
 	ArrayList <Bullet> bulletList = new ArrayList<>();
 	int xPos, yPos;
-	Tank player1 = new Tank();
+	Tank player1 = new Tank("ISU/Resources/Tank.png");
 	
 	public MovingAndCollisions1() { //Constructor
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -86,7 +86,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	}
 	
 	public void update() {
-		move();
+		player1.moveTank(up, down, left, right);
 		keepInBound();
 		animateBullet ();
 //		rotate();
@@ -158,25 +158,6 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		}
 	}
 
-
-	void move() {
-		player1.moveTank(up, down, left, right);
-	}
-
-
-	void move2() {
-		if(left)
-			rect.x -= speed;
-		else if(right)
-			rect.x += speed;
-		if(up)
-			rect.y += -speed;
-		else if(down)
-			rect.y += speed;
-		centerOfTank.x = rect.x + 15;
-		centerOfTank.y = rect.y + 27;
-		topOfTank.y = rect.y;
-	}
 	
 	void keepInBound() {
 		if(rect.x < 0)

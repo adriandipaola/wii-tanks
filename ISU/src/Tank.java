@@ -13,9 +13,9 @@ public class Tank implements MovingShape {
     int speed = 2;
 
 
-    public Tank() {
+    public Tank(String imageLocation) {
         try {
-            imgOfTank = ImageIO.read(new File("ISU/Resources/Tank.png"));
+            imgOfTank = ImageIO.read(new File(imageLocation));
         } catch (IOException e) {
             e.printStackTrace();
         }
