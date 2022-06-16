@@ -25,7 +25,9 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	ArrayList <Bullet> bulletList = new ArrayList<>();
 	int xPos, yPos;
 	Tank player1 = new Tank("ISU/Resources/Tank.png");
-	
+	AbstractLevel[] levels = new AbstractLevel[6];
+	ArrayList<Rectangle> wallsTesting = new ArrayList<>();
+
 	public MovingAndCollisions1() { //Constructor
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setVisible(true);
@@ -49,7 +51,10 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 //		Toolkit toolkit = Toolkit.getDefaultToolkit ();
 //		Cursor cursor = toolkit.createCustomCursor (image, hotspot, "pen");
 //		frame.setCursor (cursor);
-		
+
+		//change this to a for loop to create all the levels
+
+		System.out.println(levels[1].getWalls());
 	}
 	
 	@Override
@@ -70,19 +75,22 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	
 	public void initialize() {
 		//setups before the game starts running
-		walls[0] = new Rectangle(70, 70, 860, 30); //border (x,y,width,height)
-		walls[1] = new Rectangle(70, 530, 860, 30);
-		walls[2] = new Rectangle(70, 70, 30, 460);
-		walls[3] = new Rectangle(900, 70, 30, 460);
-		walls[4] = new Rectangle(900, 70, 30, 460);
-		walls[5] = new Rectangle(900, 70, 30, 460);
-		walls[6] = new Rectangle(900, 70, 30, 460);
-		walls[7] = new Rectangle(900, 70, 30, 460);
-		walls[8] = new Rectangle(900, 70, 30, 460);
-		walls[9] = new Rectangle(900, 70, 30, 460);
-		walls[10] = new Rectangle(900, 70, 30, 460);
-		walls[11] = new Rectangle(900, 70, 30, 460);
-		
+
+//		walls[0] = new Rectangle(70, 70, 860, 30); //border (x,y,width,height)
+//		walls[1] = new Rectangle(70, 530, 860, 30);
+//		walls[2] = new Rectangle(70, 70, 30, 460);
+//		walls[3] = new Rectangle(900, 70, 30, 460);
+//		walls[4] = new Rectangle(900, 70, 30, 460);
+//		walls[5] = new Rectangle(900, 70, 30, 460);
+//		walls[6] = new Rectangle(900, 70, 30, 460);
+//		walls[7] = new Rectangle(900, 70, 30, 460);
+//		walls[8] = new Rectangle(900, 70, 30, 460);
+//		walls[9] = new Rectangle(900, 70, 30, 460);
+//		walls[10] = new Rectangle(900, 70, 30, 460);
+//		walls[11] = new Rectangle(900, 70, 30, 460);
+		levels[1] = new Level1();
+		wallsTesting = new ArrayList<Rectangle>(levels[1].getWalls());
+
 	}
 	
 	public void update() {
@@ -90,8 +98,8 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		keepInBound();
 		animateBullet ();
 //		rotate();
-		for(int i = 0; i < walls.length; i++)
-			checkCollision(player1, walls[i]);
+		for(int i = 0; i < wallsTesting.size(); i++)
+			checkCollision(player1, wallsTesting.get(i));
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -100,8 +108,8 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.fillRect(0, 0, screenWidth, screenHeight);
 		g2.setColor(Color.ORANGE);
-		for(int i = 0; i < walls.length; i++)
-			g2.fill(walls[i]);
+		for(int i = 0; i < wallsTesting.size(); i++)
+			g2.fill(wallsTesting.get(i));
 		g2.setColor(Color.magenta);
 
 		Rectangle player1Hitbox = player1.getHitbox();
@@ -112,7 +120,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 			g2.fill(bulletList.get(i).getRectangle());
 		}
 	}
-	
+
 	public void drawLine (Graphics g) {
 		int mouseX = (int) MouseInfo.getPointerInfo().getLocation().getX();
 		int mouseY = (int) MouseInfo.getPointerInfo().getLocation().getY();
