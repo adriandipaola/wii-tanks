@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Bullet {
+public class Bullet implements MovingShape {
     final int SPEED = 4;
     final int DURATION = 3;
     double[] slope;
@@ -36,11 +36,20 @@ public class Bullet {
         this.spawnPoint.y = (int) spawnPoint[1];
     }
 
+
+    @Override
     public Rectangle getRectangle() {
         long millis = System.currentTimeMillis() - creationTime;
         long frames = millis / 16;
         int xPosition = (int) Math.round(spawnPoint.x + frames * slope[0]);
         int yPosition = (int) Math.round(spawnPoint.y + frames * slope[1]);
         return new Rectangle(xPosition, yPosition, 10, 10);
+    }
+
+    /**
+     * reverses the velocity of the bullet based on the side of the wall it hits
+     */
+    public void collision() {
+        // TODO Auto-generated method stub
     }
 }

@@ -75,7 +75,7 @@ public class MovingAndCollisions extends JPanel implements Runnable, KeyListener
 		walls[9] = new Rectangle(900, 70, 30, 460);
 		walls[10] = new Rectangle(900, 70, 30, 460);
 		walls[11] = new Rectangle(900, 70, 30, 460);
-		
+
 	}
 	
 	public void update() throws IOException {
@@ -85,7 +85,7 @@ public class MovingAndCollisions extends JPanel implements Runnable, KeyListener
 		for(int i = 0; i < walls.length; i++)
 			checkCollision(walls[i]);
 	}
-	
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;

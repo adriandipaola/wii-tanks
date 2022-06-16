@@ -21,10 +21,10 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	int screenHeight = 600;
 	Thread thread;
 	int FPS = 60;
-	Image firstImage, image;
 	int countFrames = 0;
 	ArrayList <Bullet> bulletList = new ArrayList<>();
 	int xPos, yPos;
+	Tank player1 = new Tank();
 	
 	public MovingAndCollisions1() { //Constructor
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -33,8 +33,9 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		thread = new Thread(this);
 		thread.start();
 		MediaTracker tracker = new MediaTracker (this);
-		firstImage = Toolkit.getDefaultToolkit ().getImage ("ISU\\resources\\Tank.png");
-		tracker.addImage (firstImage, 0);
+		//firstImage = Toolkit.getDefaultToolkit ().getImage ("ISU\\resources\\Tank.png");
+
+		tracker.addImage (player1.getImgOfTank(), 0);
 		try
 		{
 			tracker.waitForAll ();
@@ -90,7 +91,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		animateBullet ();
 //		rotate();
 		for(int i = 0; i < walls.length; i++)
-			checkCollision(walls[i]);
+			checkCollision(player1, walls[i]);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -102,8 +103,9 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		for(int i = 0; i < walls.length; i++)
 			g2.fill(walls[i]);
 		g2.setColor(Color.magenta);
-		
-		g2.drawImage(firstImage, rect.x, rect.y, rect.width, rect.height, this);
+
+		Rectangle player1Hitbox = player1.getHitbox();
+		g2.drawImage(player1.getImgOfTank(), player1Hitbox.x, player1Hitbox.y, player1Hitbox.width, player1Hitbox.height, this);
 		drawLine(g);
 		
 		for (int i = 0; i<bulletList.size(); i++) {
@@ -114,7 +116,8 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	public void drawLine (Graphics g) {
 		int mouseX = (int) MouseInfo.getPointerInfo().getLocation().getX();
 		int mouseY = (int) MouseInfo.getPointerInfo().getLocation().getY();
-		g.drawLine(centerOfTank.x, topOfTank.y, mouseX - frame.getX() - 5, mouseY - frame.getY() - 28);
+
+		g.drawLine(player1.getTopOfTank().x, player1.getTopOfTank().y, mouseX - frame.getX() - 5, mouseY - frame.getY() - 28);
 	}
 
 	@Override
@@ -154,8 +157,14 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 			down = false;
 		}
 	}
-	
+
+
 	void move() {
+		player1.moveTank(up, down, left, right);
+	}
+
+
+	void move2() {
 		if(left)
 			rect.x -= speed;
 		else if(right)
@@ -196,15 +205,27 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 //		else if (x < 0 && y <= 0)
 //			theta = 180 + theta;
 //	}
-	void checkCollision(Rectangle wall) {
-		//check if rect touches wall
-		if(rect.intersects(wall)) {
+
+
+	void checkCollision(MovingShape movingShape, Rectangle wall) {
+		Rectangle hitbox = movingShape.getRectangle();
+		if(hitbox.intersects(wall)) {
 			System.out.println("collision");
-			//stop the rect from moving
-			double left1 = rect.getX();
-			double right1 = rect.getX() + rect.getWidth();
-			double top1 = rect.getY();
-			double bottom1 = rect.getY() + rect.getHeight();
+			movingShape.collision();
+		}
+	}
+
+
+	void checkCollision1(MovingShape movingShape, Rectangle wall) {
+		Rectangle hitbox = movingShape.getRectangle();
+		//check if rect touches wall
+		if(hitbox.intersects(wall)) {
+			System.out.println("collision");
+			//stop the hitbox from moving
+			double left1 = hitbox.getX();
+			double right1 = hitbox.getX() + hitbox.getWidth();
+			double top1 = hitbox.getY();
+			double bottom1 = hitbox.getY() + hitbox.getHeight();
 			double left2 = wall.getX();
 			double right2 = wall.getX() + wall.getWidth();
 			double top2 = wall.getY();
@@ -216,7 +237,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 			   right1 - left2 < bottom2 - top1)
 	        {
 	            //rect collides from left side of the wall
-				rect.x = wall.x - rect.width;
+				hitbox.x = wall.x - hitbox.width;
 	        }
 	        else if(left1 < right2 &&
 	        		right1 > right2 && 
@@ -224,17 +245,17 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	        		right2 - left1 < bottom2 - top1)
 	        {
 	            //rect collides from right side of the wall
-	        	rect.x = wall.x + wall.width;
+				hitbox.x = wall.x + wall.width;
 	        }
 	        else if(bottom1 > top2 && top1 < top2)
 	        {
 	            //rect collides from top side of the wall
-	        	rect.y = wall.y - rect.height;
+				hitbox.y = wall.y - hitbox.height;
 	        }
 	        else if(top1 < bottom2 && bottom1 > bottom2)
 	        {
 	            //rect collides from bottom side of the wall
-	        	rect.y = wall.y + wall.height;
+				hitbox.y = wall.y + wall.height;
 	        }
 		}
 	}
@@ -243,17 +264,17 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		//this if statement might not work once enemy bullets are implemented
 		if (bulletList.size() != 4) {
 			Bullet bullet = new Bullet();
-			bullet.setSpawnPoint(new double[]{centerOfTank.x + 0.0, topOfTank.y + 0.0});
+			bullet.setSpawnPoint(new double[]{player1.centerOfTank.x + 0.0, player1.getTopOfTank().y + 0.0});
 			bulletList.add(bullet);
 			//figuring out the distance between the tank and the mouse cursor on click
-			double x = xPos - centerOfTank.x;
-			double y = yPos - centerOfTank.y;
+			double x = xPos - player1.centerOfTank.x;
+			double y = yPos - player1.getTopOfTank().y;
 			System.out.println(x);
 			System.out.println(y);
 			double hypotenuse = Math.sqrt((x * x) + (y * y));
 			System.out.println(hypotenuse);
 			//determine the length of time it takes for the bullet to reach the cursor
-			hypotenuse /= bulletSpeed;
+			hypotenuse /= bullet.SPEED;
 			//setting velocities for the x and y axes - if you use pythagorean theorem with these values,
 			// x^2 + y^2 = bulletSpeed^2
 			x /= hypotenuse;
