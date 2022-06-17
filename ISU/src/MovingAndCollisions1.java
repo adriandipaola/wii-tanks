@@ -32,13 +32,19 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	private Tank playerTank;
 	private Tank computerTank;
 
-	public MovingAndCollisions1() { //Constructor
+	public MovingAndCollisions1(String level, String computerType) { //Constructor
 
 		//this is temporary; i dont know where to put this
 		playerTank = new Tank("ISU/Resources/Tank.png");
 		playerTank.setIsPlayer(true);
-		computerTank = new FollowPlayerComputerTank("ISU/Resources/EnemyTank1.png");
-		computerTank.setIsPlayer(false);
+
+		if (computerType.equals("RandomComputerTank")) {
+			computerTank = new RandomComputerTank("ISU/Resources/EnemyTank1.png");
+			computerTank.setIsPlayer(false);
+		} else if (computerType.equals("FollowPlayerComputerTank")) {
+			computerTank = new FollowPlayerComputerTank("ISU/Resources/EnemyTank1.png");
+			computerTank.setIsPlayer(false);
+		}
 
 		tankList.add(playerTank);
 		tankList.add(computerTank);
@@ -318,6 +324,9 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 			if (!bullet.isAlive()) {
 				playerBulletList.remove(i);
 			}
+			for (int j = 0; j < wallsTesting.size(); j++) {
+				checkCollision(bullet, wallsTesting.get(j));
+			}
 		}
 		for(int i = computerBulletList.size() - 1; i >= 0; i--) {
 			Bullet bullet = computerBulletList.get(i);
@@ -329,8 +338,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 
 
 	public static void main(String[] args) {
+		if ( args == null || args.length == 0) {
+			args = new String[] {"Level1", "RandomComputerTank"};
+		}
 		frame = new JFrame ("Tanks!");
-		MovingAndCollisions1 myPanel = new MovingAndCollisions1();
+		MovingAndCollisions1 myPanel = new MovingAndCollisions1(args[0], args[1]);
 		frame.add(myPanel);
 		frame.addKeyListener(myPanel);
 		frame.setVisible(true);
