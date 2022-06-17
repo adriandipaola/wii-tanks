@@ -101,7 +101,7 @@ public class Tank implements MovingShape {
     }
 
 
-    public void collision() {
+    public void collision(Rectangle hitbox, Rectangle wall) {
         centerOfTank.x = previousCenterOfTank.x;
         centerOfTank.y = previousCenterOfTank.y;
     }

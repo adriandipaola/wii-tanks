@@ -222,7 +222,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		Rectangle hitbox = movingShape.getRectangle();
 		if(hitbox.intersects(wall)) {
 			System.out.println("collision");
-			movingShape.collision();
+			movingShape.collision(hitbox, wall);
 		}
 	}
 
