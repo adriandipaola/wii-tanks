@@ -9,7 +9,12 @@ public class Level3 extends AbstractLevel {
 		walls.add(new Rectangle(70, 70, 30, 460));
 		walls.add(new Rectangle(900, 70, 30, 460));
 		walls.add(new Rectangle(340, 100, 20, 200));
-		walls.add(new Rectangle(610, 330, 20, 200));
-		walls.add(new Rectangle(290, 300, 50, 20));
+		walls.add(new Rectangle(610, 330, 20, 220));
+		walls.add(new Rectangle(240, 300, 120, 20)); 
+		walls.add(new Rectangle(240, 300, 20, 150));
+		walls.add(new Rectangle(240, 450, 150, 20));
+		walls.add(new Rectangle(610, 310, 120, 20));
+		walls.add(new Rectangle(710, 160, 20, 150));
+		walls.add(new Rectangle(580, 160, 150, 20));
     }
 }
