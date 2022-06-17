@@ -95,7 +95,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	
 	public void initialize() {
 		//setups before the game starts running
-		levels[1] = new Level3();
+		levels[1] = new Level4();
 		wallsTesting = new ArrayList<Rectangle>(levels[1].getWalls());
 	}
 	
