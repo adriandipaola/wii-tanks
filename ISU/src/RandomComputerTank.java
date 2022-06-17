@@ -6,7 +6,7 @@ public class RandomComputerTank extends Tank {
 
     public RandomComputerTank(String imageLocation) {
         super(imageLocation);
-        centerOfTank = new Point(300, 500);
+        centerOfTank = new Point(500, 500);
     }
 
     @Override
