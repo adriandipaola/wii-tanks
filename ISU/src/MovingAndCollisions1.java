@@ -95,7 +95,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	
 	public void initialize() {
 		//setups before the game starts running
-		levels[1] = new Level4();
+		levels[1] = new Level5();
 		wallsTesting = new ArrayList<Rectangle>(levels[1].getWalls());
 	}
 	
@@ -105,7 +105,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		animateBullet ();
 //		rotate();
 		for (Tank tank : tankList) {
-			if (!tank.getIsPlayer() && countFrames % 60 == 0) {
+			if (!tank.getIsPlayer() && countFrames % 120 == 0) {
 				addComputerBullet();
 			}
 			if (tank.getIsPlayer()) {
