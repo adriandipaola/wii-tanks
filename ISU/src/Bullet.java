@@ -66,7 +66,10 @@ public class Bullet implements MovingShape {
 		{
 			//rect collides from left side of the wall
 			hitbox.x = wall.x - hitbox.width;
-			
+			slope[0]*= -1;
+			this.creationTime = System.currentTimeMillis();
+			spawnPoint.x = hitbox.x;
+			spawnPoint.y = hitbox.y;
 		}
 		else if(left1 < right2 &&
 				right1 > right2 && 
@@ -75,16 +78,28 @@ public class Bullet implements MovingShape {
 		{
 			//rect collides from right side of the wall
 			hitbox.x = wall.x + wall.width;
+			slope[0]*= -1;
+			this.creationTime = System.currentTimeMillis();
+			spawnPoint.x = hitbox.x;
+			spawnPoint.y = hitbox.y;
 		}
 		else if(bottom1 > top2 && top1 < top2)
 		{
 			//rect collides from top side of the wall
 			hitbox.y = wall.y - hitbox.height;
+			slope[1]*= -1;
+			this.creationTime = System.currentTimeMillis();
+			spawnPoint.x = hitbox.x;
+			spawnPoint.y = hitbox.y;
 		}
 		else if(top1 < bottom2 && bottom1 > bottom2)
 		{
 			//rect collides from bottom side of the wall
 			hitbox.y = wall.y + wall.height;
+			slope[1]*= -1;
+			this.creationTime = System.currentTimeMillis();
+			spawnPoint.x = hitbox.x;
+			spawnPoint.y = hitbox.y;
 		}
 
 	}

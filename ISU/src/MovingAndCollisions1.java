@@ -105,7 +105,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		animateBullet ();
 //		rotate();
 		for (Tank tank : tankList) {
-			if (!tank.getIsPlayer() && countFrames % 120 == 0) {
+			if (!tank.getIsPlayer() && countFrames % 1000 == 0) {
 				addComputerBullet();
 			}
 			if (tank.getIsPlayer()) {
