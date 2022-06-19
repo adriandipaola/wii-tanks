@@ -2,18 +2,19 @@ import java.awt.*;
 
 public class Bullet implements MovingShape {
 	final int SPEED = 4;
-	final int DURATION = 3;
+	final int DURATION = 4;
 	double[] slope;
 	Point spawnPoint;
 	long creationTime;
-
+	long bulletTime;
 
 	public Bullet() {
 		this.creationTime = System.currentTimeMillis();
+		this.bulletTime = System.currentTimeMillis();
 	}
 
 	public boolean isAlive() {
-		long millis = System.currentTimeMillis() - creationTime;
+		long millis = System.currentTimeMillis() - bulletTime; //need to keep track of this in moving and collisions run game
 		return (millis / 1000) < DURATION;
 	}
 
@@ -79,7 +80,7 @@ public class Bullet implements MovingShape {
 			//rect collides from right side of the wall
 			hitbox.x = wall.x + wall.width;
 			slope[0]*= -1;
-			this.creationTime = System.currentTimeMillis();
+			this.creationTime = System.currentTimeMillis(); // need to make the time limit
 			spawnPoint.x = hitbox.x;
 			spawnPoint.y = hitbox.y;
 		}
