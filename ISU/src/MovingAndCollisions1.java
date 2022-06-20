@@ -32,24 +32,27 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	private Tank playerTank;
 	private Tank computerTank;
 
-	public MovingAndCollisions1(String level, String computerType) { //Constructor
+	public MovingAndCollisions1(String level) { //Constructor
 
 		//this is temporary; i dont know where to put this
-		playerTank = new Tank("ISU/Resources/Tank.png");
-		playerTank.setIsPlayer(true);
+//		playerTank = new Tank("ISU/Resources/Tank.png");
+//		playerTank.setIsPlayer(true);
+//		playerTank.setCenterOfTank(120, 400);
+//
+//		if (computerType.equals("RandomComputerTank")) {
+//			computerTank = new RandomComputerTank("ISU/Resources/EnemyTank1.png");
+//			computerTank.setIsPlayer(false);
+//			computerTank.setCenterOfTank(850, 150);
+//		} else if (computerType.equals("FollowPlayerComputerTank")) {
+//			computerTank = new FollowPlayerComputerTank("ISU/Resources/EnemyTank1.png");
+//			computerTank.setIsPlayer(false);
+//			computerTank.setCenterOfTank(850, 150);
+//		}
+//
+//		tankList.add(playerTank);
+//		tankList.add(computerTank);
 
-		if (computerType.equals("RandomComputerTank")) {
-			computerTank = new RandomComputerTank("ISU/Resources/EnemyTank1.png");
-			computerTank.setIsPlayer(false);
-		} else if (computerType.equals("FollowPlayerComputerTank")) {
-			computerTank = new FollowPlayerComputerTank("ISU/Resources/EnemyTank1.png");
-			computerTank.setIsPlayer(false);
-		}
-
-		tankList.add(playerTank);
-		tankList.add(computerTank);
-
-
+		initialize();
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setVisible(true);
 		
@@ -79,7 +82,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	
 	@Override
 	public void run() {
-		initialize();
+	//	initialize();
 		while(true) {
 			countFrames ++;
 			//main game loop
@@ -95,7 +98,10 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	
 	public void initialize() {
 		//setups before the game starts running
-		levels[1] = new Level5();
+		levels[1] = new Level1();
+		tankList = new ArrayList<Tank>(levels[1].getTanks());
+		//this line is for the getHitBox method
+		playerTank = tankList.get(0);
 		wallsTesting = new ArrayList<Rectangle>(levels[1].getWalls());
 	}
 	
@@ -104,9 +110,16 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		keepInBound();
 		animateBullet ();
 //		rotate();
-		for (Tank tank : tankList) {
-			if (!tank.getIsPlayer() && countFrames % 120 == 0) {
-				addComputerBullet();
+		for (int j = 0; j < computerBulletList.size(); j++) {
+			boolean isDead = checkDeath(tankList.get(0), computerBulletList.get(j));
+			if (isDead) {
+				gameOver();
+			}
+		}
+		for (int i = 0; i < tankList.size(); i++) {
+			Tank tank = tankList.get(i);
+			if (!tank.getIsPlayer() && countFrames % 60 == 0) {
+				addComputerBullet(tank);
 			}
 			if (tank.getIsPlayer()) {
 				tank.moveTank(up, down, left, right);
@@ -116,6 +129,16 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 			}
 			for (int j = 0; j < wallsTesting.size(); j++)
 				checkCollision(tank, wallsTesting.get(j));
+			if (i > 0) {
+				for (int j = 0; j < playerBulletList.size(); j++) {
+					boolean isDead = checkDeath(tankList.get(i), playerBulletList.get(j));
+					if (isDead) {
+						tankList.remove(i);
+						playerBulletList.remove(j);
+					}
+				}
+			}
+
 		}
 	}
 
@@ -270,7 +293,24 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	        }
 		}
 	}
-	
+
+
+	boolean checkDeath(Tank tank, Bullet bullet) {
+		if (System.currentTimeMillis() - bullet.creationTime < 200) {
+			return false;
+		}
+
+		Rectangle hitbox = tank.getRectangle();
+		Rectangle bulletHitbox = bullet.getRectangle();
+		if(hitbox.intersects(bulletHitbox)) {
+			System.out.println("death");
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
 	public void addPlayerBullet() {
 		//this if statement might not work once enemy bullets are implemented
 		if (playerBulletList.size() != 4) {
@@ -296,13 +336,13 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	}
 
 
-	public void addComputerBullet() {
+	public void addComputerBullet(Tank computerTank) {
 		Bullet bullet = new Bullet();
-		bullet.setSpawnPoint(new double[]{tankList.get(1).centerOfTank.x + 0.0, tankList.get(1).getTopOfTank().y + 0.0});
+		bullet.setSpawnPoint(new double[]{computerTank.centerOfTank.x + 0.0, computerTank.getTopOfTank().y + 0.0});
 		computerBulletList.add(bullet);
 		//figuring out the distance between the tank and the mouse cursor on click
-		double x = tankList.get(0).centerOfTank.x - tankList.get(1).centerOfTank.x;
-		double y = tankList.get(0).centerOfTank.y - tankList.get(1).getTopOfTank().y;
+		double x = tankList.get(0).centerOfTank.x - computerTank.centerOfTank.x;
+		double y = tankList.get(0).centerOfTank.y - computerTank.getTopOfTank().y;
 		System.out.println(x);
 		System.out.println(y);
 		double hypotenuse = Math.sqrt((x * x) + (y * y));
@@ -333,16 +373,26 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 			if (!bullet.isAlive()) {
 				computerBulletList.remove(i);
 			}
+			for (int j = 0; j < wallsTesting.size(); j++) {
+				checkCollision(bullet, wallsTesting.get(j));
+			}
 		}
+	}
+
+
+	void gameOver() {
+		// TODO Auto-generated method stub
+		System.out.println("Game Over");
+		System.exit(0);
 	}
 
 
 	public static void main(String[] args) {
 		if ( args == null || args.length == 0) {
-			args = new String[] {"Level1", "RandomComputerTank"};
+			args = new String[] {"Level1"};
 		}
 		frame = new JFrame ("Tanks!");
-		MovingAndCollisions1 myPanel = new MovingAndCollisions1(args[0], args[1]);
+		MovingAndCollisions1 myPanel = new MovingAndCollisions1(args[0]);
 		frame.add(myPanel);
 		frame.addKeyListener(myPanel);
 		frame.setVisible(true);

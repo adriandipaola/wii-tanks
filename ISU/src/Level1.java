@@ -12,6 +12,18 @@ public class Level1 extends AbstractLevel {
         walls.add(new Rectangle(370, 270, 20, 200));
         walls.add(new Rectangle(640, 160, 20, 200));
         walls.add(new Rectangle(640, 360, 200, 20));
-        
+        tanks = new ArrayList<>();
+        Tank player = new Tank("ISU/resources/tank.png");
+        player.setIsPlayer(true);
+        player.setCenterOfTank(120, 400);
+        Tank computerTank1 = new FollowPlayerComputerTank("ISU/Resources/EnemyTank1.png");
+        computerTank1.setIsPlayer(false);
+        computerTank1.setCenterOfTank(850, 150);
+        Tank computerTank2 = new FollowPlayerComputerTank("ISU/Resources/EnemyTank1.png");
+        computerTank2.setIsPlayer(false);
+        computerTank2.setCenterOfTank(500, 250);
+        tanks.add(player);
+        tanks.add(computerTank1);
+        tanks.add(computerTank2);
     }
 }

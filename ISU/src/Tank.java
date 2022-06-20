@@ -32,6 +32,12 @@ public class Tank implements MovingShape {
     }
 
 
+    public void setCenterOfTank(int xPosition, int yPosition) {
+        centerOfTank.x = xPosition;
+        centerOfTank.y = yPosition;
+    }
+
+
     public boolean getIsPlayer() {
         return isPlayer;
     }

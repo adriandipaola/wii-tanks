@@ -247,17 +247,17 @@ public class MovingAndCollisions extends JPanel implements Runnable, KeyListener
 		}
 	}
 	
-	public static void main(String[] args) throws IOException {
-		frame = new JFrame ("Example");
-		MovingAndCollisions1 myPanel = new MovingAndCollisions1();
-		frame.add(myPanel);
-		frame.addKeyListener(myPanel);
-		frame.setVisible(true);
-		frame.pack();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);
-	}
+//	public static void main(String[] args) throws IOException {
+//		frame = new JFrame ("Example");
+//		MovingAndCollisions1 myPanel = new MovingAndCollisions1();
+//		frame.add(myPanel);
+//		frame.addKeyListener(myPanel);
+//		frame.setVisible(true);
+//		frame.pack();
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setResizable(false);
+//		frame.setLocationRelativeTo(null);
+//	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
