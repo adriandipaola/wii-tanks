@@ -27,10 +27,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	int xPos, yPos;
 	ArrayList <Tank> tankList = new ArrayList<>();
 //	Tank player1 = new Tank("ISU/Resources/Tank.png");
-	AbstractLevel[] levels = new AbstractLevel[6];
+	AbstractLevel[] levels = new AbstractLevel[7];
 	ArrayList<Rectangle> wallsTesting = new ArrayList<>();
 	private Tank playerTank;
 	private Tank computerTank;
+	int levelNumber = 1;
 
 	public MovingAndCollisions1(String level) { //Constructor
 
@@ -99,10 +100,15 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	public void initialize() {
 		//setups before the game starts running
 		levels[1] = new Level1();
-		tankList = new ArrayList<Tank>(levels[1].getTanks());
+		levels[2] = new Level2();
+		levels[3] = new Level3();
+		levels[4] = new Level4();
+		levels[5] = new Level5();
+		levels[6] = new Level6();
+		tankList = new ArrayList<Tank>(levels[levelNumber].getTanks());
 		//this line is for the getHitBox method
 		playerTank = tankList.get(0);
-		wallsTesting = new ArrayList<Rectangle>(levels[1].getWalls());
+		wallsTesting = new ArrayList<Rectangle>(levels[levelNumber].getWalls());
 	}
 	
 	public void update() {
@@ -123,7 +129,8 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 			}
 			if (tank.getIsPlayer()) {
 				tank.moveTank(up, down, left, right);
-			} else {
+			} 
+			else {
 				tank.move(playerTank);
 				//tankList.get(i).moveComputerTank(direction);
 			}
@@ -135,6 +142,10 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 					if (isDead) {
 						tankList.remove(i);
 						playerBulletList.remove(j);
+						if (tankList.size()== 1) {
+						levelNumber++; 
+						initialize();
+						}
 					}
 				}
 			}
