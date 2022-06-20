@@ -118,7 +118,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		}
 		for (int i = 0; i < tankList.size(); i++) {
 			Tank tank = tankList.get(i);
-			if (!tank.getIsPlayer() && countFrames % 60 == 0) {
+			if (!tank.getIsPlayer() && countFrames % 150 == 0) {
 				addComputerBullet(tank);
 			}
 			if (tank.getIsPlayer()) {
@@ -146,12 +146,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.LIGHT_GRAY);
+		g2.setColor(Color.BLACK);
 		g2.fillRect(0, 0, screenWidth, screenHeight);
-		g2.setColor(Color.ORANGE);
+		g2.setColor(Color.RED);
 		for(int i = 0; i < wallsTesting.size(); i++)
 			g2.fill(wallsTesting.get(i));
-		g2.setColor(Color.magenta);
 
 		for (int i = 0; i < tankList.size(); i++) {
 			Rectangle tankHitbox = tankList.get(i).getHitbox();
@@ -159,11 +158,15 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 					tankHitbox.width, tankHitbox.height, this);
 		}
 		for (int i = 0; i< playerBulletList.size(); i++) {
+			g2.setColor(Color.GREEN);
 			g2.fill(playerBulletList.get(i).getRectangle());
 		}
 		for (int i = 0; i< computerBulletList.size(); i++) {
+			g2.setColor(Color.YELLOW);
 			g2.fill(computerBulletList.get(i).getRectangle());
 		}
+		g2.setColor(Color.GREEN);
+		drawLine(g);
 	}
 
 	public void drawLine (Graphics g) {
