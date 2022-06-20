@@ -18,12 +18,9 @@ public class Level1 extends AbstractLevel {
         player.setCenterOfTank(120, 400);
         Tank computerTank1 = new RandomComputerTank("ISU/Resources/EnemyTank1.png");
         computerTank1.setIsPlayer(false);
-        computerTank1.setCenterOfTank(850, 150);
-        Tank computerTank2 = new FollowPlayerComputerTank("ISU/Resources/EnemyTank1.png");
-        computerTank2.setIsPlayer(false);
-        computerTank2.setCenterOfTank(500, 250);
+        computerTank1.setCenterOfTank(750, 250);
+        computerTank1.setSpeed(0);
         tanks.add(player);
         tanks.add(computerTank1);
-        tanks.add(computerTank2);
     }
 }

@@ -75,6 +75,12 @@ public class Tank implements MovingShape {
 
 	}
 
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+
 	/**
 	 *
 	 * @param direction 0 is straight up, and every number after is 45 degrees more
