@@ -16,6 +16,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/*
+ * Adrian Di Paola, Elson Cao
+ * June 21, 2022
+ * This is our tank game 
+ */
+
 @SuppressWarnings("serial")
 public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListener, MouseListener, ActionListener {
 	
@@ -44,12 +50,16 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	int levelNumber = 0;
 	static JFrame startingScreen = new JFrame ("starting Screen");
 	JPanel titleScreenPanel, instructionsPage, levelSurvive, levelDeath, levelScreen;
-	JButton play, instructions, quit, back;
+	JButton play, instructions, quit, back, nextLevel;
 	BufferedImage[] menuScreens = new BufferedImage[5];
 	int currentMenuScreen = 0;
 	
-
-	public MovingAndCollisions1() { //Constructor
+	/*
+	 * Constructor of the game
+	 * No parameters
+	 * No Return
+	 */
+	public MovingAndCollisions1() {
 		try {
 			menuScreens[0] = ImageIO.read(new File("ISU/resources/TitleScreen.jpg"));
 		} catch (IOException e) {
@@ -79,7 +89,12 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		addMouseListener (this);
 	}
 	
-	public void openFrame () { //graphics g
+	/*
+	 * Creates the screen for the menu
+	 * No parameters
+	 * No Return
+	 */
+	public void openFrame () { 
 		JPanel button = new JPanel (new FlowLayout()); 
 		button.setBackground(Color.BLACK); 	
 		JLabel background = new JLabel(new ImageIcon("tanks.gif")); 
@@ -102,7 +117,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		frame.add(background, BorderLayout.CENTER);
 		frame.add(button, BorderLayout.SOUTH);
 	}
-	
+	/*
+	 * Creates the instructions page of the game
+	 * No parameters
+	 * No Return
+	 */
 	public void instructions () {
 		instructionsPage = new JPanel (new BorderLayout());
 		instructionsPage.setBackground(Color.black);
@@ -130,6 +149,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		
 	}
 	
+	/*
+	 * Creates the page when you baet the level
+	 * No parameters
+	 * No Return
+	 */
 	public void levelSurvive () {
 		levelSurvive = new JPanel(new BorderLayout()); 
 		levelSurvive.setBackground(Color.BLACK);
@@ -142,9 +166,9 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		next.addActionListener(this);
 		next.setActionCommand("Next Level");
 
-		JButton exit = new JButton ("quit Game"); 
+		JButton exit = new JButton ("quit"); 
 		exit.addActionListener(this);
-		exit.setActionCommand("Quit Game"); 
+		exit.setActionCommand("quit"); 
 
 		JLabel endInfo = new JLabel(); 
 		endInfo.setText("You passed Level " + (levelNumber));
@@ -157,14 +181,47 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		levelSurvive.add(buttonPanelTwo, BorderLayout.PAGE_END); 
 	}
 	
+	/*
+	 * Creates a screen when you die 
+	 * No parameters
+	 * No Return
+	 */
 	public void levelDeath () {
-		
+		levelDeath = new JPanel(new BorderLayout()); 
+		levelDeath.setBackground(Color.BLACK);
+		levelDeath.setPreferredSize(new Dimension (700, 500));
+
+		JPanel buttonPanelTwo = new JPanel(new FlowLayout()); 
+		buttonPanelTwo.setBackground(Color.RED); 
+
+		JButton next = new JButton ("goBack"); 
+		next.addActionListener(this);
+		next.setActionCommand("goBack");
+
+		JButton exit = new JButton ("quit"); 
+		exit.addActionListener(this);
+		exit.setActionCommand("quit"); 
+
+		JLabel endInfo = new JLabel(); 
+		endInfo.setText("Get rekt haha");
+		endInfo.setFont(new Font("Calibri", Font.BOLD, 30));
+		endInfo.setForeground(Color.WHITE);
+
+		buttonPanelTwo.add(next); 
+		buttonPanelTwo.add(exit); 
+
+		levelDeath.add(buttonPanelTwo, BorderLayout.PAGE_END); 
 	}
 	
 	public void levelScreen () {
 		
 	}
 	@Override
+	/*
+	 * This is the main loop of the program
+	 * No parameters
+	 * No Return
+	 */
 	public void run() {
 		while(true) {
 			countFrames ++;
@@ -179,6 +236,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		}
 	}
 	
+	/*
+	 * Where we setup the game before it starts running
+	 * No parameters
+	 * No Return
+	 */
 	public void initialize() {
 		//setups before the game starts running
 		levels[0] = new BlankScreen();
@@ -197,7 +259,12 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 			wallsTesting = new ArrayList<Rectangle>(levels[levelNumber].getWalls());
 //		}
 	}
-	
+		
+	/*
+	 * This method does all the shooting and moving
+	 * No parameters
+	 * No Return
+	 */
 	public void update() {
 
 		keepInBound();
@@ -206,7 +273,8 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		for (int j = 0; j < computerBulletList.size(); j++) {
 			boolean isDead = checkDeath(tankList.get(0), computerBulletList.get(j));
 			if (isDead) {
-				gameOver();
+				levelDeath();
+				initialize();
 			}
 		}
 		for (int i = 0; i < tankList.size(); i++) {
@@ -230,7 +298,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 						tankList.remove(i);
 						playerBulletList.remove(j);
 						if (tankList.size()==1) {
-							levelNumber++;
+							levelSurvive();
 							initialize();
 						}
 					}
@@ -240,7 +308,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		}
 	}
 
-
+	/*
+	 * This method draws the tanks and levels
+	 * Takes in Graphics g
+	 * No Return
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
@@ -269,7 +341,12 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 			g2.setColor(Color.GREEN);
 		}
 	}
-
+	
+	/*
+	 * Draws the line from the tank to the cursor so the user can aim
+	 * Takes in graphics g
+	 * No return
+	 */
 	public void drawLine (Graphics g) {
 		int mouseX = (int) MouseInfo.getPointerInfo().getLocation().getX();
 		int mouseY = (int) MouseInfo.getPointerInfo().getLocation().getY();
@@ -284,6 +361,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	}
 
 	@Override
+	/*
+	 * Sees when a key is pressed
+	 * Takes in keyEvent e
+	 * No Return
+	 */
 	public void keyPressed(KeyEvent e) {
 		System.out.println("test");
 		int key = e.getKeyCode();
@@ -303,6 +385,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	}
 
 	@Override
+	/*
+	 * Sees when a key is released
+	 * Takes in keyEvent e
+	 * No Return
+	 */
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
 		if(key == KeyEvent.VK_A) {
@@ -316,7 +403,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		}
 	}
 
-
+	/*
+	 * Keeps the tank in bound
+	 * No parameters
+	 * No return
+	 */
 	void keepInBound() {
 		if(rect.x < 0)
 			rect.x = 0;
@@ -329,7 +420,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 			rect.y = screenHeight - rect.height;
 	}
 
-
+	/*
+	 * Checks if a bullet hits a tank
+	 * Takes in moving shape and wall
+	 * No return
+	 */
 	void checkCollision(MovingShape movingShape, Rectangle wall) {
 		Rectangle hitbox = movingShape.getRectangle();
 		if(hitbox.intersects(wall)) {
@@ -337,7 +432,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		}
 	}
 
-
+	/*
+	 * Checks if the enemy bullet hits a tank
+	 * Takes in tank, bullet
+	 * No return
+	 */
 	boolean checkDeath(Tank tank, Bullet bullet) {
 		if (System.currentTimeMillis() - bullet.creationTime < 200) {
 			return false;
@@ -353,7 +452,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		}
 	}
 
-
+	/*
+	 * This method adds a bullet whenever clicked
+	 * No parameters
+	 * No return
+	 */
 	public void addPlayerBullet() {
 		if (playerBulletList.size() != 4) {
 			Bullet bullet = new Bullet();
@@ -376,7 +479,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		}
 	}
 
-
+	/*
+	 * This method adds a bullet from the enemy
+	 * No parameters
+	 * No return
+	 */
 	public void addComputerBullet(Tank computerTank) {
 		Bullet bullet = new Bullet();
 		bullet.setSpawnPoint(new double[]{computerTank.centerOfTank.x + 0.0, computerTank.getTopOfTank().y + 0.0});
@@ -397,7 +504,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		bullet.setSlope(new double[]{x,y});
 	}
 
-
+	/*
+	 * This method makes the bullet move every frame
+	 * No parameters
+	 * No return
+	 */
 	public void animateBullet() {
 
 		for(int i = playerBulletList.size() - 1; i >= 0; i--) {
@@ -420,14 +531,18 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		}
 	}
 
-
+	/*
+	 * Quits the game when game over
+	 * No parameters
+	 * No return
+	 */
 	void gameOver() {
 		// TODO Auto-generated method stub
 		System.out.println("Game Over");
 		System.exit(0);
 	}
 
-
+	
     public static void main(String[] args) {
         frame = new JFrame("Tanks!");
         MovingAndCollisions1 myPanel = new MovingAndCollisions1();
@@ -469,6 +584,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	}
 
 	@Override
+	/*
+	 * tells the program what to do if a button is clicked
+	 * Takes in ActionEvent e
+	 * No return
+	 */
 	public void actionPerformed(ActionEvent e) {
 
 		play.setVisible(false);
@@ -487,7 +607,8 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 			play.setVisible(true);
 			instructions.setVisible(true);
 			quit.setVisible(true);
+		} else if (e.getActionCommand().equals("nextLevel")) {
+			levelNumber++;
 		}
-		
 	}
 }
