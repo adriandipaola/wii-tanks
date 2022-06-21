@@ -1,8 +1,8 @@
 import java.awt.*;
 
 public class Bullet implements MovingShape {
-	final int SPEED = 4;
 	final int DURATION = 4;
+	int speed = 4;
 	double[] slope;
 	Point spawnPoint;
 	long creationTime;
@@ -40,6 +40,11 @@ public class Bullet implements MovingShape {
 //	public void setSpeed(int speed) {
 //		this.SPEED=speed;
 //	}
+
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
 
 
 	@Override

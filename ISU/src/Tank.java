@@ -12,6 +12,7 @@ public class Tank implements MovingShape {
 	Point previousCenterOfTank = new Point(135, 487);
 	boolean isPlayer;
 	int speed = 2;
+	int bulletSpeed = 4;
 	ArrayList <Tank> tankList = new ArrayList<>();
 
 
@@ -120,6 +121,10 @@ public class Tank implements MovingShape {
 	public void collision(Rectangle hitbox, Rectangle wall) {
 		centerOfTank.x = previousCenterOfTank.x;
 		centerOfTank.y = previousCenterOfTank.y;
+	}
+
+	public void setBulletSpeed(int bulletSpeed) {
+		this.bulletSpeed = bulletSpeed;
 	}
 
 }

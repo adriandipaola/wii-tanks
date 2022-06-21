@@ -442,7 +442,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 			double hypotenuse = Math.sqrt((x * x) + (y * y));
 			System.out.println(hypotenuse);
 			//determine the length of time it takes for the bullet to reach the cursor
-			hypotenuse /= bullet.SPEED;
+			hypotenuse /= tankList.get(0).bulletSpeed;
 			//setting velocities for the x and y axes - if you use pythagorean theorem with these values,
 			// x^2 + y^2 = bulletSpeed^2
 			x /= hypotenuse;
@@ -465,7 +465,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		double hypotenuse = Math.sqrt((x * x) + (y * y));
 		System.out.println(hypotenuse);
 		//determine the length of time it takes for the bullet to reach the cursor
-		hypotenuse /= bullet.SPEED;
+		hypotenuse /= computerTank.bulletSpeed;
 		//setting velocities for the x and y axes - if you use pythagorean theorem with these values,
 		// x^2 + y^2 = bulletSpeed^2
 		x /= hypotenuse;
