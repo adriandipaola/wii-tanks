@@ -1,13 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
-public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListener, MouseListener {
+public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListener, MouseListener, ActionListener {
 	
 	static JFrame frame;
 	Rectangle rect = new Rectangle(120, 460, 30, 55);
@@ -32,27 +41,22 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	private Tank playerTank;
 	private Tank computerTank;
 	int levelNumber = 1;
+	static JFrame startingScreen = new JFrame ("starting Screen");
+	JPanel instructions, levelSurvive, levelDeath, levelScreen;
+	/*
+	 * Public Rectangle playButton = new Rectangle (GAME.WIDTH/2 + 120, 150, 100, 50);
+	 * Public Rectangle instructionsButton = new Rectangle (GAME.WIDTH/2 + 120, 250, 100, 50);
+	 * Public Rectangle quitButton = new Rectangle (GAME.WIDTH/2 + 120, 350, 100, 50);
+	 */
+	
 
 	public MovingAndCollisions1(String level) { //Constructor
 
-		//this is temporary; i dont know where to put this
-//		playerTank = new Tank("ISU/Resources/Tank.png");
-//		playerTank.setIsPlayer(true);
-//		playerTank.setCenterOfTank(120, 400);
-//
-//		if (computerType.equals("RandomComputerTank")) {
-//			computerTank = new RandomComputerTank("ISU/Resources/EnemyTank1.png");
-//			computerTank.setIsPlayer(false);
-//			computerTank.setCenterOfTank(850, 150);
-//		} else if (computerType.equals("FollowPlayerComputerTank")) {
-//			computerTank = new FollowPlayerComputerTank("ISU/Resources/EnemyTank1.png");
-//			computerTank.setIsPlayer(false);
-//			computerTank.setCenterOfTank(850, 150);
-//		}
-//
-//		tankList.add(playerTank);
-//		tankList.add(computerTank);
-
+		openFrame();
+		instructions();
+//		levelSurvive;
+//		levelDeath;
+//		levelScreen;
 		initialize();
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setVisible(true);
@@ -81,6 +85,107 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 
 	}
 	
+	public void openFrame () { //graphics g
+		JPanel start = new JPanel(); 
+		JPanel button = new JPanel (new FlowLayout()); 
+		button.setBackground(Color.BLACK); 	
+		JLabel background = new JLabel(new ImageIcon("tanks.gif")); 
+		
+		JButton play = new JButton ("Play"); 
+		play.setActionCommand("play"); 
+		play.addActionListener(this);
+		JButton instructions = new JButton ("Instructions"); 
+		instructions.setText("instructions");
+		instructions.addActionListener(this);
+		JButton quit = new JButton ("Characters"); 
+		quit.setText("quit");
+		quit.addActionListener(this);
+
+		button.add(play); 
+		button.add(instructions); 
+		button.add(quit); 
+
+		start.setLayout(new BorderLayout()); 
+		start.add(background, BorderLayout.CENTER); 
+		start.add(button, BorderLayout.SOUTH); 
+
+		startingScreen.add(start); 
+		startingScreen.pack(); 
+		startingScreen.setVisible(true);
+//		Graphics2D 2d = (Graphics2D) g;
+//		Font arial = new Font ("arial", Font.BOLD, 50);
+//		g.setFont(arial);
+//		g.setColor(Color.white);
+//		g.drawString("TANK GAME", MovingAndCollisions1.WIDTH/2, 100);
+//		g2d.draw(playButton);
+		//g2d.draw(instructionsButton);
+		//g2d.draw(quitButton);
+	}
+	
+	public void instructions () {
+		instructions = new JPanel (new BorderLayout());
+		instructions.setBackground(Color.black);
+		instructions.setSize(MovingAndCollisions.WIDTH, MovingAndCollisions.HEIGHT);
+		JPanel instructionPanel = new JPanel( new BorderLayout()); 
+		JLabel instruction = new JLabel ("TANK GAME"); 
+		instruction.setFont(new Font("Monospaced", Font.BOLD, 20));
+		JLabel instruction2 = new JLabel ("Your goal is to move and shoot the enemy tanks in given levels. "); 
+		instruction2.setFont(new Font("Monospaced", Font.BOLD, 60));
+		JLabel instruction3 = new JLabel ("To do so, use WASD to move your tank and click to wherever pointed to shoot. Good Luck Soldier!"); 
+		instruction3.setFont(new Font("Monospaced", Font.BOLD, 60));
+		
+		instructionPanel.add(instruction, BorderLayout.NORTH); 
+		instructionPanel.add(instruction2, BorderLayout.CENTER);
+		instructionPanel.add(instruction3, BorderLayout.SOUTH); 
+		
+		JButton back = new JButton ("back"); 
+		back.addActionListener(this);
+		back.setActionCommand("goBack");
+		
+		instructions.add(instruction, BorderLayout.NORTH); 
+		instructions.add(instructionPanel, BorderLayout.CENTER); 
+		instructions.add(back, BorderLayout.SOUTH); 
+		
+	}
+	
+	public void levelSurvive () {
+//		endPanel = new JPanel(new BorderLayout()); 
+//		endPanel.setBackground(Color.BLACK);
+//		endPanel.setPreferredSize(new Dimension (700, 500));
+//
+//		JPanel buttonPanelTwo = new JPanel(new FlowLayout()); 
+//		buttonPanelTwo.setBackground(Color.RED); 
+//
+//		JButton next = new JButton ("next level"); 
+//		next.addActionListener(this);
+//		next.setActionCommand("Next Level");
+//
+//		JButton exitTwo = new JButton ("quit Game"); 
+//		exitTwo.addActionListener(this);
+//		exitTwo.setActionCommand("Quit Game"); 
+//
+//		JLabel endInfo1Two = new JLabel(); 
+//		endInfo1Two.setText("Yay! You PASSED");
+//		endInfo1Two.setFont(new Font("Calibri", Font.BOLD, 60));
+//		endInfo1Two.setForeground(Color.WHITE);
+//
+//		endInfo2Two = new JLabel ("You passed Level "+ (level-1));
+//		endInfo2Two.setFont(new Font("Calibri", Font.BOLD, 30));
+//		endInfo2Two.setForeground(Color.WHITE);
+//
+//		buttonPanelTwo.add(next); 
+//		buttonPanelTwo.add(exitTwo); 
+//
+//		endPanel.add(buttonPanelTwo, BorderLayout.PAGE_END); 
+	}
+	
+	public void levelDeath () {
+		
+	}
+	
+	public void levelScreen () {
+		
+	}
 	@Override
 	public void run() {
 	//	initialize();
@@ -105,10 +210,10 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		levels[4] = new Level4();
 		levels[5] = new Level5();
 		levels[6] = new Level6();
-		tankList = new ArrayList<Tank>(levels[2].getTanks());
+		tankList = new ArrayList<Tank>(levels[levelNumber].getTanks());
 		//this line is for the getHitBox method
 		playerTank = tankList.get(0);
-		wallsTesting = new ArrayList<Rectangle>(levels[2].getWalls());
+		wallsTesting = new ArrayList<Rectangle>(levels[levelNumber].getWalls());
 	}
 	
 	public void update() {
@@ -258,7 +363,6 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	void checkCollision(MovingShape movingShape, Rectangle wall) {
 		Rectangle hitbox = movingShape.getRectangle();
 		if(hitbox.intersects(wall)) {
-			System.out.println("collision");
 			movingShape.collision(hitbox, wall);
 		}
 	}
@@ -268,7 +372,6 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		Rectangle hitbox = movingShape.getRectangle();
 		//check if rect touches wall
 		if(hitbox.intersects(wall)) {
-			System.out.println("collision");
 			//stop the hitbox from moving
 			double left1 = hitbox.getX();
 			double right1 = hitbox.getX() + hitbox.getWidth();
@@ -442,5 +545,11 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	@Override
 	public void mouseExited(MouseEvent e) {
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
