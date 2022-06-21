@@ -158,6 +158,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		levelSurvive = new JPanel(new BorderLayout()); 
 		levelSurvive.setBackground(Color.BLACK);
 		levelSurvive.setPreferredSize(new Dimension (700, 500));
+		JLabel pass = new JLabel(new ImageIcon("levelPass.png")); 
 
 		JPanel buttonPanelTwo = new JPanel(new FlowLayout()); 
 		buttonPanelTwo.setBackground(Color.RED); 
@@ -190,6 +191,7 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		levelDeath = new JPanel(new BorderLayout()); 
 		levelDeath.setBackground(Color.BLACK);
 		levelDeath.setPreferredSize(new Dimension (700, 500));
+		JLabel pass = new JLabel(new ImageIcon("levelFail.png")); 
 
 		JPanel buttonPanelTwo = new JPanel(new FlowLayout()); 
 		buttonPanelTwo.setBackground(Color.RED); 
