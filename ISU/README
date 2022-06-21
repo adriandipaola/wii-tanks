@@ -1,0 +1,44 @@
+# ISU
+
+Welcome to our tank game!
+Throughout our coding journey, we have had our ups and downs but in the end, this is our product.
+
+
+Missing and additional functionalities:
+Although our game is great, we are missing a feature from our original plan and that is the leaderboard. 
+However, we decided to compensate that by adding abilities for enemies to make the levels harder. This includes
+	- Adjusting the speed of the bullet 
+	- Adjusting the speed of the tank
+
+
+Bugs:
+1. this.slope is null
+We think this happens when the slope is 0 but we’re not sure what the problem is
+2. Index 0 out of bounds for 0
+We don’t know why this happens, but we suspect it has to do something with an ArrayList we made that are responsible for the tanks
+
+
+Hints:
+To skip levels in our game, go to the method “initialize” and you can manually change the levels in the code
+
+
+Responsibilities
+
+Elson
+- Player tank movement
+- Collision of tanks and walls
+- Level design (walls)
+- Helped with tank shooting
+- Shooting ricochet 
+- Menu Screen
+
+Adrian 
+- Enemy tank movement (Randomized and following)
+- Enemy tank shooting
+- Tank destruction
+- Tank Shooting
+- Bullet Collision
+- Player tank shooting
+
+Title Screen image source:
+https://www.nintendo.co.za/Games/Nintendo-Switch-download-software/Attack-of-the-Toy-Tanks-1585247.html

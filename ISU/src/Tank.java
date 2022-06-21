@@ -1,3 +1,9 @@
+/**
+ * An extremely important class in this program: this contains all the data relating to a tank. It even contains
+ * a variable about bullets (bulletSpeed). some of the important data this object holds are whether it is a player,
+ * the hitbox of the tank, and the image of the tank.
+ */
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +14,7 @@ import java.util.ArrayList;
 
 public class Tank implements MovingShape {
 	BufferedImage imgOfTank;
-	Point centerOfTank = new Point(135, 487); //create a setter for this
+	Point centerOfTank = new Point(135, 487);
 	Point previousCenterOfTank = new Point(135, 487);
 	boolean isPlayer;
 	int speed = 2;

@@ -1,3 +1,8 @@
+/**
+ * One of two methods for computer tanks: this tank always moves directly towards a player.
+ * even if there is a wall there.
+ */
+
 import java.awt.*;
 
 public class FollowPlayerComputerTank extends Tank{

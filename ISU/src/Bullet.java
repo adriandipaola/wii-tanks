@@ -1,3 +1,9 @@
+/**
+ * One of the most crucial classes in the program - the Bullet class stores the creation time,
+ * speed, and slope that the bullet was shot at. It also contains methods like collision()
+ * which changes the slope of the bullet depending on which side of a wall it hit.
+ */
+
 import java.awt.*;
 
 public class Bullet implements MovingShape {
