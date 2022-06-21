@@ -12,7 +12,11 @@ public class Bullet implements MovingShape {
 		this.creationTime = System.currentTimeMillis();
 		this.bulletTime = System.currentTimeMillis();
 	}
-
+	/*
+	 * Determines how long the bullet is alive for 
+	 * No parameters
+	 * Returns if time is less than duration
+	 */
 	public boolean isAlive() {
 		long millis = System.currentTimeMillis() - bulletTime; //need to keep track of this in moving and collisions run game
 		return (millis / 1000) < DURATION;
@@ -48,6 +52,11 @@ public class Bullet implements MovingShape {
 
 
 	@Override
+	/*
+	 * Gets the rectangle to move on a set path every 16 milliseconds
+	 * No parameters
+	 * Returns rectangle x position and y position
+	 */
 	public Rectangle getRectangle() {
 		long millis = System.currentTimeMillis() - creationTime;
 		long frames = millis / 16;
@@ -58,6 +67,8 @@ public class Bullet implements MovingShape {
 
 	/**
 	 * reverses the velocity of the bullet based on the side of the wall it hits
+	 * Takes in hitbox, wall
+	 * No return
 	 */
 	public void collision(Rectangle hitbox, Rectangle wall) {
 		double left1 = hitbox.getX();

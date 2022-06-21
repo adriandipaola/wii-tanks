@@ -34,7 +34,11 @@ public class Tank implements MovingShape {
 		this.isPlayer = b;
 	}
 
-
+	/*
+	 * sets the position of centre of tank
+	 * Takes in x position and y position
+	 * No return
+	 */
 	public void setCenterOfTank(int xPosition, int yPosition) {
 		centerOfTank.x = xPosition;
 		centerOfTank.y = yPosition;
@@ -55,7 +59,11 @@ public class Tank implements MovingShape {
 		return new Point(centerOfTank.x, centerOfTank.y - 27);
 	}
 
-
+	/*
+	 * This method moves the tank
+	 * Takes in up, down, left, right
+	 * No return
+	 */
 	public void moveTank(boolean up, boolean down, boolean left, boolean right) {
 		previousCenterOfTank.x = centerOfTank.x;
 		previousCenterOfTank.y = centerOfTank.y;
