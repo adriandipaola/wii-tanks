@@ -57,9 +57,9 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		}
 		openFrame();
 		instructions();
-//		levelSurvive;
-//		levelDeath;
-//		levelScreen;
+		levelSurvive();
+		levelDeath();
+		levelScreen();
 		initialize();
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setVisible(true);
@@ -131,34 +131,30 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 	}
 	
 	public void levelSurvive () {
-//		endPanel = new JPanel(new BorderLayout()); 
-//		endPanel.setBackground(Color.BLACK);
-//		endPanel.setPreferredSize(new Dimension (700, 500));
-//
-//		JPanel buttonPanelTwo = new JPanel(new FlowLayout()); 
-//		buttonPanelTwo.setBackground(Color.RED); 
-//
-//		JButton next = new JButton ("next level"); 
-//		next.addActionListener(this);
-//		next.setActionCommand("Next Level");
-//
-//		JButton exitTwo = new JButton ("quit Game"); 
-//		exitTwo.addActionListener(this);
-//		exitTwo.setActionCommand("Quit Game"); 
-//
-//		JLabel endInfo1Two = new JLabel(); 
-//		endInfo1Two.setText("Yay! You PASSED");
-//		endInfo1Two.setFont(new Font("Calibri", Font.BOLD, 60));
-//		endInfo1Two.setForeground(Color.WHITE);
-//
-//		endInfo2Two = new JLabel ("You passed Level "+ (level-1));
-//		endInfo2Two.setFont(new Font("Calibri", Font.BOLD, 30));
-//		endInfo2Two.setForeground(Color.WHITE);
-//
-//		buttonPanelTwo.add(next); 
-//		buttonPanelTwo.add(exitTwo); 
-//
-//		endPanel.add(buttonPanelTwo, BorderLayout.PAGE_END); 
+		levelSurvive = new JPanel(new BorderLayout()); 
+		levelSurvive.setBackground(Color.BLACK);
+		levelSurvive.setPreferredSize(new Dimension (700, 500));
+
+		JPanel buttonPanelTwo = new JPanel(new FlowLayout()); 
+		buttonPanelTwo.setBackground(Color.RED); 
+
+		JButton next = new JButton ("next level"); 
+		next.addActionListener(this);
+		next.setActionCommand("Next Level");
+
+		JButton exit = new JButton ("quit Game"); 
+		exit.addActionListener(this);
+		exit.setActionCommand("Quit Game"); 
+
+		JLabel endInfo = new JLabel(); 
+		endInfo.setText("You passed Level " + (levelNumber));
+		endInfo.setFont(new Font("Calibri", Font.BOLD, 30));
+		endInfo.setForeground(Color.WHITE);
+
+		buttonPanelTwo.add(next); 
+		buttonPanelTwo.add(exit); 
+
+		levelSurvive.add(buttonPanelTwo, BorderLayout.PAGE_END); 
 	}
 	
 	public void levelDeath () {
