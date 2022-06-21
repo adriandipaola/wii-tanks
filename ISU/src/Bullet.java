@@ -36,6 +36,10 @@ public class Bullet implements MovingShape {
 		this.spawnPoint.x = (int) spawnPoint[0];
 		this.spawnPoint.y = (int) spawnPoint[1];
 	}
+	
+//	public void setSpeed(int speed) {
+//		this.SPEED=speed;
+//	}
 
 
 	@Override

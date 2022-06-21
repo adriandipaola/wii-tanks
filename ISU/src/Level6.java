@@ -14,6 +14,11 @@ public class Level6 extends AbstractLevel {
 		walls.add(new Rectangle (552, 240, 20, 295));
 		walls.add(new Rectangle (670, 70, 20, 295));
 		walls.add(new Rectangle (788, 167, 20, 295));
+		tanks = new ArrayList<>();
+        Tank player = new Tank("ISU/resources/tank.png");
+        player.setIsPlayer(true);
+        player.setCenterOfTank(150, 200);
+        tanks.add(player);
     }
 }
 

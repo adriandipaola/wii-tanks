@@ -105,10 +105,10 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 		levels[4] = new Level4();
 		levels[5] = new Level5();
 		levels[6] = new Level6();
-		tankList = new ArrayList<Tank>(levels[levelNumber].getTanks());
+		tankList = new ArrayList<Tank>(levels[2].getTanks());
 		//this line is for the getHitBox method
 		playerTank = tankList.get(0);
-		wallsTesting = new ArrayList<Rectangle>(levels[levelNumber].getWalls());
+		wallsTesting = new ArrayList<Rectangle>(levels[2].getWalls());
 	}
 	
 	public void update() {
@@ -142,9 +142,9 @@ public class MovingAndCollisions1 extends JPanel implements Runnable, KeyListene
 					if (isDead) {
 						tankList.remove(i);
 						playerBulletList.remove(j);
-						if (tankList.size()== 1) {
-						levelNumber++; 
-						initialize();
+						if (tankList.size()==1) {
+							levelNumber++;
+							initialize();
 						}
 					}
 				}
